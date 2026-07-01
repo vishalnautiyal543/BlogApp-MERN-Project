@@ -1,0 +1,57 @@
+import { User } from "../models/user.model.js";
+import jwt from "jsonwebtoken";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import {uploadOnClodinary} from "../utils/cloudinary.js"
+
+//register
+
+const register = asyncHandler(async (req, res) => {
+  const { username, email, name, password } = req.body;
+
+  if (!username || !email || !name || !password) {
+    throw new ApiError(500, "All fields are required");
+  }
+
+
+  const existingUser = await User.findOne({
+    $or:[{email},{username}]
+  });
+  
+
+  if (existingUser) {
+    throw new ApiError(409, "User with email or username already exists");
+  }
+
+  const avatarLocalPath = req.file?.path;
+
+  console.log(avatarLocalPath)
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Avatar file is required");
+  }
+
+  const avatar = await uploadOnClodinary(avatarLocalPath);
+
+  
+  const user = await User.create({
+    username:username.toString(),
+    email,
+    name,
+    avatar:avatar.url,
+    password
+  })
+
+  const registeredUser = await User.find({email}).select("-password -refreshToken")
+
+  return res.status(200).json({
+    success:true,
+    message:"user registered successfully",
+    registeredUser
+  })
+
+});
+
+
+
+
+export {register}

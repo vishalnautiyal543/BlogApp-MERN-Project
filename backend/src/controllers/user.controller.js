@@ -2,7 +2,7 @@ import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import {uploadOnClodinary} from "../utils/cloudinary.js"
+import { uploadOnClodinary } from "../utils/cloudinary.js";
 
 //register
 
@@ -13,11 +13,9 @@ const register = asyncHandler(async (req, res) => {
     throw new ApiError(500, "All fields are required");
   }
 
-
   const existingUser = await User.findOne({
-    $or:[{email},{username}]
+    $or: [{ email }, { username }],
   });
-  
 
   if (existingUser) {
     throw new ApiError(409, "User with email or username already exists");
@@ -25,33 +23,71 @@ const register = asyncHandler(async (req, res) => {
 
   const avatarLocalPath = req.file?.path;
 
-  console.log(avatarLocalPath)
+  console.log(avatarLocalPath);
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file is required");
   }
 
   const avatar = await uploadOnClodinary(avatarLocalPath);
 
-  
   const user = await User.create({
-    username:username.toString(),
+    username: username.toString(),
     email,
     name,
-    avatar:avatar.url,
-    password
-  })
+    avatar: avatar.url,
+    password,
+  });
 
-  const registeredUser = await User.find({email}).select("-password -refreshToken")
+  const registeredUser = await User.find({ email }).select(
+    "-password -refreshToken",
+  );
 
   return res.status(200).json({
-    success:true,
-    message:"user registered successfully",
-    registeredUser
-  })
-
+    success: true,
+    message: "user registered successfully",
+    registeredUser,
+  });
 });
 
+//login
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
+  if (!email || !password) {
+    throw new ApiError(401, "All fields are required");
+  }
 
+  const user = await User.findOne({ email });
 
-export {register}
+  if (!user) {
+    throw new ApiError(401, "user not found");
+  }
+
+  const isPasswordCorrect = await user.isPasswordCorrect(password);
+
+  if (!isPasswordCorrect) {
+    throw new ApiError(401, "Invalid user Credentials");
+  }
+
+  const accessToken = user.generateAccessToken();
+  const refreshToken = user.generateRefreshToken();
+
+  const dbUser = await User.findById(user._id).select("-password -refreshToken")
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("refreshToken", refreshToken)
+    .json({
+      success: true,
+      message: "Login successfully",
+      accessToken,
+      user:dbUser
+    });
+});
+
+export { register, login };

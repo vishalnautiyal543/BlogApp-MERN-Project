@@ -99,7 +99,9 @@ const login = asyncHandler(async (req, res) => {
 // refresh-access-token
 const refreshAccessToken = async (req, res, next) => {
 
-  const refreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
+  const refreshToken = req.cookies?.refreshToken ;
+
+  console.log(refreshToken)
   
   if (!refreshToken) {
     return next(new ApiError(401, "Unauthorized request"));
@@ -129,12 +131,15 @@ const refreshAccessToken = async (req, res, next) => {
     user.refreshToken = newRefreshToken;
     await user.save({ validateBeforeSave: false });
 
+    const dbUser = await User.findById(user._id).select("-password -refreshToken");
+
     return res
       .status(200)
       .cookie("refreshToken", newRefreshToken, options) 
       .json({
         success: true,
         accessToken,
+        user:dbUser
       });
 
   } catch (error) {
@@ -144,6 +149,36 @@ const refreshAccessToken = async (req, res, next) => {
 };
 
 //logout
+const logout = asyncHandler(async(req,res)=>{
+
+   await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $unset: {
+                refreshToken: 1 // this removes the field from document
+            }
+        },
+        {
+            returnDocument: "after"
+        }
+    )
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json({
+      success:true,
+      message:"user logout successfully"
+    })
+})
 
 
-export { register, login,refreshAccessToken };
+
+
+export { register, login,refreshAccessToken,logout };

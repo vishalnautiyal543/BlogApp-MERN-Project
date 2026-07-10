@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../features/auth/authThunk";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const Register =() => {
+const Register = () => {
+  const dispatch = useDispatch();
+
+  const { loading, error, message } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    username: '',
-    name: '',
-    email: '',
-    password: '',
+    username: "",
+    name: "",
+    email: "",
+    password: "",
+    avatar: null,
   });
-  const [avatar, setAvatar] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState('');
+
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -17,16 +28,35 @@ const Register =() => {
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setAvatar(file);
-      setAvatarPreview(URL.createObjectURL(file));
-    }
+    if (!file) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      avatar: file,
+    }));
+    setAvatarPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., API call)
-    console.log('Form Submitted', { ...formData, avatar });
+
+    const data = new FormData();
+
+    data.append("username", formData.username);
+    data.append("name", formData.name);
+    data.append("email", formData.email);
+    data.append("password", formData.password);
+    if (formData.avatar) {
+      data.append("avatar", formData.avatar);
+    }
+    try {
+      const response = await dispatch(registerUser(data)).unwrap();
+
+      toast.success(response?.message || "Registration successful!");
+      navigate("/login");
+    } catch (err) {
+      toast.error(err || "Registration failed!");
+    }
   };
 
   return (
@@ -46,7 +76,9 @@ const Register =() => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {/* Avatar Upload Field */}
           <div className="flex flex-col items-center justify-center space-y-3">
-            <label className="text-sm font-medium text-gray-700">Profile Picture</label>
+            <label className="text-sm font-medium text-gray-700">
+              Profile Picture
+            </label>
             <div className="relative group h-24 w-24 overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50 hover:border-indigo-500 transition-colors">
               {avatarPreview ? (
                 <img
@@ -56,9 +88,24 @@ const Register =() => {
                 />
               ) : (
                 <div className="flex h-full w-full flex-col items-center justify-center text-gray-400 group-hover:text-indigo-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                    />
                   </svg>
                   <span className="text-xs mt-1">Upload</span>
                 </div>
@@ -75,7 +122,10 @@ const Register =() => {
           <div className="space-y-4 rounded-md shadow-sm">
             {/* Name Field */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Full Name
               </label>
               <input
@@ -92,7 +142,10 @@ const Register =() => {
 
             {/* Username Field */}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Username
               </label>
               <input
@@ -109,7 +162,10 @@ const Register =() => {
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email address
               </label>
               <input
@@ -127,7 +183,10 @@ const Register =() => {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Password
               </label>
               <input
@@ -148,15 +207,16 @@ const Register =() => {
           <div>
             <button
               type="submit"
-              className="group relative flex w-full justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 shadow-md transition-all active:scale-[0.98]"
+              className="group relative flex w-full justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 shadow-md transition-all active:scale-[0.98]"
+              disabled={loading}
             >
-              Sign up
+              {loading ? "Signing up..." : "Sign up"}
             </button>
           </div>
         </form>
       </div>
     </div>
   );
-}
+};
 
-export default Register
+export default Register;

@@ -85,9 +85,10 @@ const login = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000
   };
 
-  return res.status(200).cookie("refreshToken", refreshToken).json({
+  return res.status(200).cookie("refreshToken", refreshToken,options).json({
     success: true,
     message: "Login successfully",
     accessToken,
@@ -101,7 +102,6 @@ const refreshAccessToken = async (req, res, next) => {
 
   const refreshToken = req.cookies?.refreshToken ;
 
-  console.log(refreshToken)
   
   if (!refreshToken) {
     return next(new ApiError(401, "Unauthorized request"));

@@ -7,7 +7,8 @@ import Trending from "../pages/Trending"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
 import ProtectedRoute from "./ProtectedRoute"
-import Dashboard from "../pages/Dashboard/Dashboard"
+import DashboardLayout from "../layouts/DashboardLayout"
+import DashboardHome from "../pages/Dashboard/DashboardHome"
 
 const AppRoute = () => {
   return (
@@ -22,8 +23,13 @@ const AppRoute = () => {
             <Route  path="/login" element={<Login/> } />
             <Route  path="/register" element={<Register/> } />
           </Route>
-          <Route element={<ProtectedRoute/>} >
-            <Route path="/dashboard" element={<Dashboard/>} />  
+          <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <DashboardLayout/>
+              </ProtectedRoute>
+            } 
+          >
+            <Route index element={<DashboardHome/>} />
           </Route>
         </Routes>
       </BrowserRouter>

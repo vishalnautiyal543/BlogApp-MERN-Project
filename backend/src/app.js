@@ -22,10 +22,12 @@ app.use(cors(corsOptions))
 
 //import routes
 import userRoutes from "./routes/user.routes.js"
+import blogRoutes from "./routes/blog.routes.js"
 
 
 //use routes 
 app.use("/api/v1",userRoutes)
+app.use("/api/v1/blogs",blogRoutes)
 
 
 

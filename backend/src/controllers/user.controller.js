@@ -84,7 +84,8 @@ const login = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
+    secure: false,
+    sameSite:'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000
   };
 
@@ -102,6 +103,7 @@ const refreshAccessToken = async (req, res, next) => {
 
   const refreshToken = req.cookies?.refreshToken ;
 
+  // console.log(refreshToken)
   
   if (!refreshToken) {
     return next(new ApiError(401, "Unauthorized request"));
@@ -119,11 +121,12 @@ const refreshAccessToken = async (req, res, next) => {
       return next(new ApiError(401, "Refresh token is expired or used"));
     }
 
-    const options = {
-      httpOnly: true,
-      secure: true, 
-      sameSite: "None" 
-    };
+   const options = {
+    httpOnly: true,
+    secure: false,
+    sameSite:'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  };
 
     const accessToken = user.generateAccessToken();
     const newRefreshToken = user.generateRefreshToken();

@@ -1,5 +1,4 @@
 import {axiosInstance} from "../../services/axios"
-import {setAccessToken} from "../../utils/tokenManager"
 
 
 const registerApi = async (userData) => {

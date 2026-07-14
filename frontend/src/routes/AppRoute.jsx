@@ -9,6 +9,8 @@ import Register from "../pages/Register"
 import ProtectedRoute from "./ProtectedRoute"
 import DashboardLayout from "../layouts/DashboardLayout"
 import DashboardHome from "../pages/Dashboard/DashboardHome"
+import Profile from "../pages/Dashboard/Profile"
+import CreateBlog from "../pages/Dashboard/CreateBlog"
 
 const AppRoute = () => {
   return (
@@ -30,6 +32,9 @@ const AppRoute = () => {
             } 
           >
             <Route index element={<DashboardHome/>} />
+            <Route path="profile" element={<Profile/>} />
+            <Route path="create-blog" element={<CreateBlog/>} />
+            <Route path="myblogs" element={<CreateBlog/>} />
           </Route>
         </Routes>
       </BrowserRouter>

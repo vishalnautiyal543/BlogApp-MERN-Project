@@ -15,7 +15,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, handleLogout }) => {
 
   const menuItems = [
     { name: 'Profile', path: '/dashboard/profile', icon: User },
-    { name: 'Create Blog', path: '/dashboard/createblog', icon: SquarePlus },
+    { name: 'Create Blog', path: '/dashboard/create-blog', icon: SquarePlus },
     { name: 'Analytics', path: '/dashboard/analytics', icon: BarChart3 },
     { name: 'My Blogs', path: '/dashboard/myblogs', icon: BookOpen },
   ];

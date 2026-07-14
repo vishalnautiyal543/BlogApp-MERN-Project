@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Menu, LayoutDashboard } from 'lucide-react';
-import Sidebar from '../components/Sidebar'; 
+import Sidebar from '../components/Dashboard/Sidebar'; 
 import {useDispatch} from "react-redux"
 import { logoutUser } from '../features/auth/authThunk';
 import {toast} from "react-toastify"

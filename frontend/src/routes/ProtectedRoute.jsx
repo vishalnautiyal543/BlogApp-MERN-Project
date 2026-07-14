@@ -6,12 +6,7 @@ import Loader from '../components/Loader'
 const ProtectedRoute = ({children}) => {
 
 
-    const {isAuthenticated,authLoading } = useSelector((state)=>state.auth)
-
-    
-    console.log(isAuthenticated);
-    console.log(authLoading);
-    
+    const {isAuthenticated,authLoading } = useSelector((state)=>state.auth)    
 
     if(authLoading){
         return <div className="fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-50">

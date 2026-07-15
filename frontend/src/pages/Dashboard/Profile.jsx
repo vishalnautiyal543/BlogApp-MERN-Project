@@ -7,7 +7,7 @@ const Profile = () => {
 
   
   return (
- <div className="px-4 py-16 font-inter bg-neutral-50 min-h-screen flex items-center justify-center">
+ <div className="px-4 py-16 font-Inter bg-neutral-50 min-h-screen flex items-center justify-center">
   <div className="profileCard bg-white border border-neutral-200/80 rounded-none p-6 md:p-10 w-full max-w-md md:max-w-2xl gap-8 flex flex-col md:flex-row items-center md:items-stretch mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.02)] group hover:border-neutral-400 transition-colors duration-500">
     
     {/* Left Side: Sharp, Framed Avatar */}

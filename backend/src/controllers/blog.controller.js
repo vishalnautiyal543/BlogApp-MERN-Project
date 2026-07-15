@@ -6,7 +6,8 @@ import { ApiError } from "../utils/ApiError.js";
 // create Blog
 
 const createBlog = asyncHandler(async (req, res) => {
-  const { title, content, excerpt, featuredImage, category, tags, status } =
+    
+  const { title, content, featuredImage="", category, tags, status } =
     req.body;
 
   if (!title?.trim() || !content?.trim() || !category?.trim()) {
@@ -29,9 +30,12 @@ const createBlog = asyncHandler(async (req, res) => {
 
     const plainText = content.replace(/<[^>]*>/g, "");
 
-    const words = plainText.trim().split(/\s+/).length;
+    let blogSummary = plainText.slice(0,100) 
 
+    //read time calculation
+    const words = plainText.trim().split(/\s+/).length;
     const readTime = Math.ceil(words / 200);
+
 
     const blogTags = Array.isArray(tags) ? tags : [];
 
@@ -39,7 +43,7 @@ const createBlog = asyncHandler(async (req, res) => {
     title,
     slug,
     content,
-    excerpt,
+    excerpt:blogSummary,
     featuredImage,
     category,
     tags:blogTags,

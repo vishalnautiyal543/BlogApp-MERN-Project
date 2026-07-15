@@ -6,7 +6,7 @@ import ImageExtension from '@tiptap/extension-image';
 import Toolbar from "./Toolbar";
 
 
-const Editor = () =>{
+const Editor = ({setBlogContent}) =>{
 
    const editor = useEditor({
     extensions: [
@@ -31,9 +31,7 @@ const Editor = () =>{
     shouldRerenderOnTransaction: true
     ,
     onUpdate: ({ editor }) => {
-      if (onChange) {
-        onChange(editor.getHTML());
-      }
+      editor.getHTML() && setBlogContent(editor.getHTML());
     },
     editorProps: {
       attributes: {

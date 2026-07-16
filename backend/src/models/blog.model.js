@@ -67,6 +67,14 @@ const blogSchema = new Schema(
     views:{
       type:Number,
       default:0
+    },
+    likesCount:{
+      type:Number,
+      default:0
+    },
+    commentsCount:{
+      type:Number,
+      default:0
     }
   },
   {

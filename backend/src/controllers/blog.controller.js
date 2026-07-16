@@ -1,4 +1,6 @@
 import { Blog } from "../models/blog.model.js";
+import {Like} from "../models/like.model.js"
+import {Comment} from "../models/comment.model.js"
 import slugify from "slugify";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -118,7 +120,7 @@ const getAllBlogs = asyncHandler(async(req,res)=>{
 
     return res.status(200).json({
         success:true,
-        blogs,
+        data:blogs,
         pagination:{
             currentPage:pageNumber,
             totalBlogs,
@@ -355,6 +357,104 @@ const deleteBlog = asyncHandler(async(req,res)=>{
 
 });
 
+// like blog
+
+const toggleLike = asyncHandler(async(req,res)=>{
+
+    const existingLike = await Like.findOne({
+        blog:req.params.id,
+        user:req.user._id
+    })
+
+    if(existingLike){
+
+        await Like.deleteOne()
+
+        await Blog.findByIdAndUpdate(req.params.id,{
+            $inc:{
+                likesCount:-1,
+            }
+        })
+
+        return res.status(200).json({
+            message:"Unliked",
+        })
+    }
+
+    await Like.create({
+        blog: req.params.id,
+        user: req.user._id,
+    });
+
+    await Blog.findByIdAndUpdate(req.params.id, {
+        $inc: {
+            likesCount: 1,
+        },
+    });
+
+    return res.status(200).json({
+        message: "Liked",
+    });
+    
+
+})
+
+
+const addComment = asyncHandler(async (req,res)=>{
+
+    const {content} = req.body
+
+    if (!content) {
+        return res.status("400").json({
+            message:"comment is required"
+        })
+    }
+
+
+    const comment = await Comment.create({
+        blog:req.params.id,
+        user:req.user._id,
+        content
+    })
+
+    await Blog.findByIdAndUpdate(req.params.id, {
+        $inc: {
+            commentsCount: 1,
+        },
+    });
+
+     return res.status(201).json(comment);
+
+
+})
+
+
+// delete comment
+
+const deleteComment = asyncHandler(async(req,res)=>{
+
+    const comment = await Comment.findById(req.params.commentId);
+
+    if (!comment) {
+        throw new ApiError(404,"comment not found")
+    }
+
+    await comment.deleteOne()
+
+
+    await Blog.findByIdAndUpdate(comment.blog,{
+        $inc:{
+            commentsCount:-1
+        }
+    })
+
+
+    return res.status(200).json({
+        success:true,
+        message:"Comment Deleted!"
+    })
+
+})
 
 export {
     createBlog,
@@ -363,5 +463,8 @@ export {
     getMyBlogs,
     getMyBlogById,
     updateBlog,
-    deleteBlog
+    deleteBlog,
+    toggleLike,
+    addComment,
+    deleteComment
 }

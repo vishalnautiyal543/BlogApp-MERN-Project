@@ -9,6 +9,8 @@
     --color-light: #F8FAFC
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* body{
     background: #02021a;
 } */

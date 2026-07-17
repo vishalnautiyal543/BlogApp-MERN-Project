@@ -7,8 +7,8 @@ const Profile = () => {
 
   
   return (
- <div className="px-4 py-16 font-Inter bg-neutral-50 min-h-screen flex items-center justify-center">
-  <div className="profileCard bg-white border border-neutral-200/80 rounded-none p-6 md:p-10 w-full max-w-md md:max-w-2xl gap-8 flex flex-col md:flex-row items-center md:items-stretch mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.02)] group hover:border-neutral-400 transition-colors duration-500">
+ <div className="px-4 py-16 dark:bg-darkmode font-Inter bg-neutral-50 min-h-screen flex items-center justify-center">
+  <div className="profileCard dark:bg-darkmode dark:border-primary/10 bg-white border border-neutral-200/80 rounded-none p-6 md:p-10 w-full max-w-md md:max-w-2xl gap-8 flex flex-col md:flex-row items-center md:items-stretch mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.02)] group dark:hover:border-primary hover:border-neutral-400 transition-colors duration-500">
     
     {/* Left Side: Sharp, Framed Avatar */}
     <div className="w-32 h-32 md:w-40 md:h-auto md:aspect-square shrink-0 bg-neutral-100 overflow-hidden relative border border-neutral-200 p-1.5">
@@ -24,11 +24,11 @@ const Profile = () => {
       
       {/* Top Section: Name and Handle */}
       <div className="space-y-2">
-        <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-neutral-400 block">
+        <div className="text-[10px]  uppercase tracking-[0.2em] font-semibold text-neutral-400 block">
           Creative Member // {user.username}
         </div>
-        <h2 className="text-3xl font-light text-neutral-900 tracking-tight leading-tight">
-          Hello, I am <span className="font-medium underline decoration-neutral-300 decoration-1 underline-offset-4">{user.name}</span>
+        <h2 className="text-3xl font-light text-neutral-900 tracking-tight leading-tight dark:text-gray-100 ">
+          Hello, I am <span className="font-medium underline dark:text-gray-100 decoration-neutral-300 decoration-1 underline-offset-4">{user.name}</span>
         </h2>
       </div>
 

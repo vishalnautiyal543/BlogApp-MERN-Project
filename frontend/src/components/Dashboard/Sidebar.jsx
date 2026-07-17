@@ -7,7 +7,8 @@ import {
   BookOpen, 
   LogOut, 
   X, 
-  LayoutDashboard 
+  LayoutDashboard ,
+  Settings
 } from 'lucide-react';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar, handleLogout }) => {
@@ -18,12 +19,13 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, handleLogout }) => {
     { name: 'Create Blog', path: '/dashboard/create-blog', icon: SquarePlus },
     { name: 'Analytics', path: '/dashboard/analytics', icon: BarChart3 },
     { name: 'My Blogs', path: '/dashboard/myblogs', icon: BookOpen },
+    { name: 'Settings', path: '/dashboard/settings', icon: Settings }
   ];
 
 
 
   const navLinkClass = ({ isActive }) => 
-    `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+    `flex items-center gap-3 px-4 py-3 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors ${
       isActive 
         ? 'bg-[#2563EB] text-white' 
         : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
@@ -33,24 +35,24 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, handleLogout }) => {
     <aside 
       style={{ width: `${sidebarWidth}px` }} // Inline style se dynamic width apply hogi
       className={`
-        fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-200 flex flex-col justify-between transform transition-transform duration-300 ease-in-out h-full
+        fixed inset-y-0 dark:bg-darkmode left-0 z-50 bg-white border-r border-gray-200 flex flex-col justify-between transform transition-transform duration-300 ease-in-out h-full
         md:fixed md:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
     >
       <div>
         {/* Sidebar Header */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100">
+        <div className="h-16  flex items-center justify-between px-6 border-b border-gray-100">
           <div className="flex items-center gap-2.5">
             <LayoutDashboard className="h-6 w-6 text-primary" />
-            <span className="font-bold font-Inter text-xl text-gray-900 truncate">Dashboard</span>
+            <span className="font-bold dark:text-gray-100 font-Inter text-xl text-gray-900 truncate">Dashboard</span>
           </div>
           <button onClick={toggleSidebar} className="p-1 text-gray-500 hover:bg-gray-100 rounded md:hidden">
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Navigation Links */}
+        {/* Navigation Links */}  
         <nav className="p-4 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;

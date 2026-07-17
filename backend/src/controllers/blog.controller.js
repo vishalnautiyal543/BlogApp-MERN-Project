@@ -456,6 +456,59 @@ const deleteComment = asyncHandler(async(req,res)=>{
 
 })
 
+// trending blogs
+const getTrendingBlogs = asyncHandler(async (req, res) => {
+
+    const blogs = await Blog.aggregate([
+        {
+            $match: {
+                status: "published",
+            },
+        },
+        {
+            $addFields: {
+                trendingScore: {
+                    $add: [
+                        "$views",
+                        { $multiply: ["$likesCount", 5] },
+                        { $multiply: ["$commentsCount", 3] },
+                        { $multiply: ["$bookmarksCount", 4] },
+                    ],
+                },
+            },
+        },
+        {
+            $sort: {
+                trendingScore: -1,
+            },
+        },
+        {
+            $limit: 10,
+        },
+    ]);
+
+    return res.status(200).json({
+        success: true,
+        blogs,
+    });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export {
     createBlog,
     getAllBlogs,
@@ -466,5 +519,6 @@ export {
     deleteBlog,
     toggleLike,
     addComment,
-    deleteComment
+    deleteComment,
+    getTrendingBlogs
 }

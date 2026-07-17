@@ -1,16 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 
-@theme{
-    --font-Inter:"Inter", sans-serif;
+@theme {
+    --font-Inter: "Inter", sans-serif;
     --color-primary: #2563EB;
     --color-dark: #0F172A;
     --color-accent: #F97316;
-    --color-light: #F8FAFC
+    --color-light: #F8FAFC;
+    --color-darkmode: #020618;
+    
+    --bg-main: var(--color-light); 
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* body{
-    background: #02021a;
-} */
+@utility dark {
+    --bg-main: var(--color-darkmode);
+}
+
+body {
+    background-color: var(--bg-main);
+    transition: background-color 0.3s ease; 
+}

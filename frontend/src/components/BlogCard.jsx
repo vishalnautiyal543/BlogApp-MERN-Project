@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Simple date formatter helper function
 const formatDate = (dateString) => {
@@ -12,13 +13,13 @@ const BlogCard = (props) => {
   const { title, author, featuredImage, upvotes, comments, readTime, createdAt } = props.Card;
 
   return (
-    <article className="font-Inter flex gap-4 p-4 bg-white rounded-lg hover:bg-gray-50 transition-colors duration-200 
+    <article className="font-Inter dark:bg-darkmode flex gap-4 p-4 bg-white rounded-lg hover:bg-gray-50 dark:hover:bg-darkmode dark:hover:border-primary/20 dark:hover:shadow-lg dark:shadow-primary/10 transition-colors duration-200 
       w-full 
       sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 
-      mx-auto lg:mx-0 border border-gray-100/50">
+      mx-auto lg:mx-0 border border-gray-100/50 dark:border-gray-700/50"> 
       
       {/* Featured Image - Left side */}
-      <div className="flex-shrink-0 w-24 h-16 sm:w-32 sm:h-20 overflow-hidden rounded-md bg-gray-100">
+      <div className="shrink-0 w-24 h-16 sm:w-32 sm:h-20 overflow-hidden rounded-md bg-gray-100">
         {featuredImage ? (
           <img
             src={featuredImage}
@@ -37,8 +38,8 @@ const BlogCard = (props) => {
       <div className="flex flex-col flex-1 min-w-0">
         
         {/* Metadata Row: Author, Formatted Date, Read Time */}
-        <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1 flex-wrap">
-          <span className="font-medium text-gray-700 truncate max-w-[120px]">
+        <div className="flex items-center gap-1.5 text-xs dark:text-gray-400 text-gray-500 mb-1 flex-wrap">
+          <span className="font-medium text-gray-700 dark:text-yellow-100/50 tracking-wide truncate max-w-30">
             {author?.name || "Anonymous"}
           </span>
           <span>•</span>
@@ -49,10 +50,10 @@ const BlogCard = (props) => {
         </div>
 
         {/* Title */}
-        <h2 className="text-sm sm:text-base font-bold text-gray-900 line-clamp-2 leading-tight hover:text-blue-600 mb-2">
-          <a href={`/blog/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+        <h2 className="text-sm sm:text-base dark:text-gray-100 font-bold text-gray-900 line-clamp-2 leading-tight hover:text-blue-600 mb-2">
+          <Link to={`/blog/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
             {title}
-          </a>
+          </Link>
         </h2>
 
         {/* Interaction Bar (Upvotes & Comments) */}

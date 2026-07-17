@@ -111,12 +111,12 @@ const Navbar = () => {
             </div>
 
             <Link to="/login">
-              <button className="px-5 py-2 text-sm font-Inter font-medium text-white dark:text-white bg-slate-950 dark:bg-primary hover:bg-slate-800 dark:hover:bg-primary/90 rounded-full shadow-sm transition-all duration-200">
+              <button className="px-5 py-2 text-sm font-Inter font-medium text-white dark:text-white bg-primary dark:bg-primary hover:bg-slate-800 dark:hover:bg-primary/90 rounded-full shadow-sm transition-all duration-200">
                 Sign up/in
               </button>
             </Link>
             <Link to="/dashboard">
-              <button className="px-5 py-2 text-sm font-Inter font-medium text-white dark:text-white bg-slate-950 dark:bg-primary hover:bg-slate-800 dark:hover:bg-primary/90 rounded-full shadow-sm transition-all duration-200">
+              <button className="px-5 py-2 text-sm font-Inter font-medium text-white dark:text-white bg-primary dark:bg-primary hover:bg-slate-800 dark:hover:bg-primary/90 rounded-full shadow-sm transition-all duration-200">
                 Dashboard
               </button>
             </Link>

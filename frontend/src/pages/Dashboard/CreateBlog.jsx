@@ -48,10 +48,9 @@ const CreateBlog = () => {
   };
 
   return (
-    <div className="px-4 py-16 font-Inter bg-neutral-50 min-h-screen flex flex-col items-center justify-start">
+    <div className="px-4 py-16 dark:bg-darkmode font-Inter bg-neutral-50 min-h-screen flex flex-col items-center justify-start">
       <h1 className='text-2xl font-semibold text-primary mb-4'>Create a New Blog</h1>
 
-      {/* Title Input */}
       <div className='w-full max-w-4xl mx-auto border border-gray-200 rounded-lg shadow-sm bg-white p-4 mb-4'>
         <input 
           className='w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
@@ -91,7 +90,7 @@ const CreateBlog = () => {
       </div>
 
       {/* Status Select */}
-      <div className='w-full my-3 max-w-4xl mx-auto flex justify-start items-center gap-4'>
+      <div className='w-full bg-white p-3 rounded-xl my-3 max-w-4xl mx-auto flex justify-start items-center gap-4'>
       <select name="status" id="status" value={status} onChange={(e) => setStatus(e.target.value)} className='w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'>
         <option value="draft">Draft</option>
         <option value="published">Published</option>

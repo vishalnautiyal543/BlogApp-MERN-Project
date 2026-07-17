@@ -11,6 +11,8 @@ import DashboardLayout from "../layouts/DashboardLayout"
 import DashboardHome from "../pages/Dashboard/DashboardHome"
 import Profile from "../pages/Dashboard/Profile"
 import CreateBlog from "../pages/Dashboard/CreateBlog"
+import Settings from "../pages/Dashboard/Settings"
+import MyBlogs from "../pages/Dashboard/MyBlogs"
 
 const AppRoute = () => {
   return (
@@ -34,7 +36,8 @@ const AppRoute = () => {
             <Route index element={<DashboardHome/>} />
             <Route path="profile" element={<Profile/>} />
             <Route path="create-blog" element={<CreateBlog/>} />
-            <Route path="myblogs" element={<CreateBlog/>} />
+            <Route path="myblogs" element={<MyBlogs/>} />
+            <Route path="settings" element={<Settings/>} />
           </Route>
         </Routes>
       </BrowserRouter>

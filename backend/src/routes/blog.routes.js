@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { addComment, createBlog, deleteBlog, deleteComment, getAllBlogs, getMyBlogById, getMyBlogs, getSingleBlog, toggleLike, updateBlog } from "../controllers/blog.controller.js"
+import { addComment, createBlog, deleteBlog, deleteComment, getAllBlogs, getMyBlogById, getMyBlogs, getSingleBlog, getTrendingBlogs, toggleLike, updateBlog } from "../controllers/blog.controller.js"
 import { auth } from "../middlewares/auth.middleware.js"
 
 const router = Router()
@@ -19,6 +19,9 @@ router.delete(
     auth,
     deleteComment
 );
+
+
+router.get("/trending",getTrendingBlogs)
 
 
 export default router

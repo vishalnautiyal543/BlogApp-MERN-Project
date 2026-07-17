@@ -24,26 +24,27 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await dispatch(loginUser(formData)).unwrap();
-    
-    navigate("/dashboard");
-    toast.success(res?.message || "Login Successful!", { position: "top-right" });
+    e.preventDefault();
+    try {
+      const res = await dispatch(loginUser(formData)).unwrap();
 
-  } catch (err) {
-    loading = false;
-    const errorMessage = err?.message || err || "Login failed!";
-    toast.error(errorMessage, { position: "top-right" });
-  }
-};
+      navigate("/dashboard");
+      toast.success(res?.message || "Login Successful!", {
+        position: "top-right",
+      });
+    } catch (err) {
+      loading = false;
+      const errorMessage = err?.message || err || "Login failed!";
+      toast.error(errorMessage, { position: "top-right" });
+    }
+  };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center font-inter bg-linear-to-br from-gray-50 to-gray-100 p-4">
-      <div className="w-full max-w-md bg-white border border-gray-100 rounded-2xl shadow-xl p-8 sm:p-10 transition-all duration-300 hover:shadow-2xl font-Inter">
+    <div className="min-h-screen w-full flex items-center justify-center font-inter bg-linear-to-br from-gray-50 to-gray-100 dark:bg-none dark:bg-darkmode p-4">
+      <div className="w-full max-w-md dark:bg-darkmode dark:border-primary dark:shadow dark:shadow-primary/20 bg-white border border-gray-100 rounded-2xl shadow-xl p-8 sm:p-10 transition-all duration-300 hover:shadow-2xl font-Inter">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight">
+          <h2 className="text-2xl dark:text-gray-100 sm:text-3xl font-bold text-gray-800 tracking-tight">
             Welcome back
           </h2>
           <p className="text-sm text-gray-500 mt-2">

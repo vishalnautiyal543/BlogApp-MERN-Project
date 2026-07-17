@@ -48,7 +48,7 @@ const Editor = ({setBlogContent}) =>{
       <Toolbar editor={editor} />
       
       <div className="overflow-y-auto max-h-125">
-        <EditorContent editor={editor} />
+        <EditorContent editor= {editor} />
       </div>
     </div>
     )

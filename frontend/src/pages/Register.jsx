@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../features/auth/authThunk";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -60,14 +60,14 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen font-Inter items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl">
+    <div className="flex min-h-screen font-Inter items-center justify-center bg-gray-50 dark:bg-darkmode  px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md dark:bg-darkmode dark:border-primary dark:border  space-y-8 rounded-2xl bg-white p-8 shadow-xl">
         {/* Header */}
         <div className="text-center">
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
+          <h2 className="mt-2 dark:text-gray-100 text-3xl font-bold tracking-tight text-gray-900">
             Create your account
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 dark:text-gray-300 text-sm text-gray-600">
             Join us today! It only takes a minute.
           </p>
         </div>
@@ -79,7 +79,7 @@ const Register = () => {
             <label className="text-sm font-medium text-gray-700">
               Profile Picture
             </label>
-            <div className="relative group h-24 w-24 overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50 hover:border-indigo-500 transition-colors">
+            <div className="relative group h-24 w-24 overflow-hidden rounded-full border-2 border-dashed dark:bg-darkmode border-gray-300 bg-gray-50 hover:border-indigo-500 transition-colors">
               {avatarPreview ? (
                 <img
                   src={avatarPreview}
@@ -212,6 +212,13 @@ const Register = () => {
             >
               {loading ? "Signing up..." : "Sign up"}
             </button>
+          </div>
+          <div className="h-px w-5/6 mx-auto bg-gray-300" ></div>
+          {/* Already have an account link */}
+          <div className="text-sm text-center text-gray-500">
+            <Link to="/login" className="text-sm font-semibold text-gray-400 hover:text-gray-500">
+              Already have an account? Sign in
+            </Link>
           </div>
         </form>
       </div>

@@ -6,15 +6,11 @@ const DashboardHome = () => {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <div className="w-full block md:pl-4">
-      <Link to="/" className="mb-4 inline-block">
-        <button className="bg-primary font-Inter text-white py-2 px-4 rounded-full cursor-pointer hover:bg-primary/80">
-          Go to Home
-        </button>
-      </Link>
+    <div className="w-full block md:pl-4  ">
+     
       
       {/* Welcome Card */}
-      <div className='w-full md:max-w-2xl flex flex-col md:flex-row items-center gap-6 text-center md:text-left font-Inter shadow-sm bg-amber-50/60 border border-gray-200 rounded-2xl p-6'>
+      <div className='w-full  md:max-w-2xl flex flex-col md:flex-row items-center gap-6 text-center md:text-left font-Inter shadow-sm bg-amber-50/60 border border-gray-200 rounded-2xl p-6'>
           
           {/* Avatar Container */}
           <div className="shrink-0">

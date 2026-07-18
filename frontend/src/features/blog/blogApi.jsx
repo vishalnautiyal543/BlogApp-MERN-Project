@@ -11,5 +11,10 @@ const getAllBlogsApi = async()=>{
     return response.data;
 }
 
+const getSingleBlogApi = async(slug)=>{
+    const response = await axiosInstance.get(`/blogs/${slug}`)
+    return response.data;
+}
 
-export {createApi, getAllBlogsApi}
+
+export {createApi, getAllBlogsApi, getSingleBlogApi}

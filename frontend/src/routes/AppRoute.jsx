@@ -13,6 +13,7 @@ import Profile from "../pages/Dashboard/Profile"
 import CreateBlog from "../pages/Dashboard/CreateBlog"
 import Settings from "../pages/Dashboard/Settings"
 import MyBlogs from "../pages/Dashboard/MyBlogs"
+import BlogContent from "../pages/BlogContent"
 
 const AppRoute = () => {
   return (
@@ -26,6 +27,7 @@ const AppRoute = () => {
             <Route  path="/trending" element={<Trending/> } />
             <Route  path="/login" element={<Login/> } />
             <Route  path="/register" element={<Register/> } />
+            <Route  path="/blog/:slug" element={<BlogContent/> } />
           </Route>
           <Route path="/dashboard" element={
               <ProtectedRoute>

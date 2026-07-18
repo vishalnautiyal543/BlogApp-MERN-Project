@@ -7,11 +7,11 @@ import { store } from "./app/store.js"
 import ThemeProvider from './utils/themeProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ 
     <Provider store={store}>
       <ThemeProvider>
         <App />
       </ThemeProvider>
     </Provider>
-  </StrictMode>,
+
 )
